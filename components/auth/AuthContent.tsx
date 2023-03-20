@@ -6,7 +6,7 @@ import AuthForm from './AuthForm';
 
 interface AuthContentProps {
 	isLogin: boolean;
-	onAuthenticate: (credentials: { email: string; password: string }) => void;
+	onAuthenticate?: (credentials: { email: string; password: string }) => void;
 }
 
 export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
@@ -20,9 +20,9 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 
 	function switchAuthModeHandler() {
 		if (isLogin) {
-			navigation.navigate('Signup');
+			navigation.replace('Signup');
 		} else {
-			navigation.navigate('Login');
+			navigation.replace('Login');
 		}
 	}
 
@@ -53,7 +53,7 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 			});
 			return;
 		}
-		onAuthenticate({ email, password });
+		/* onAuthenticate({ email, password }); */
 	}
 
 	return (
