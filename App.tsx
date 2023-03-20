@@ -1,10 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import News from './screens/News';
 import Watchlist from './screens/Watchlist';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Login from './screens/Login';
+import Signup from './screens/Signup';
 
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -28,6 +32,10 @@ export default function App() {
 				<Tab.Screen name="Watchlist" component={Watchlist} />
 				<Tab.Screen name="News" component={News} />
 			</Tab.Navigator>
+			<Stack.Navigator>
+				<Stack.Screen name="Login" component={Login} />
+				<Stack.Screen name="Signup" component={Signup} />
+			</Stack.Navigator>
 		</NavigationContainer>
 	);
 }

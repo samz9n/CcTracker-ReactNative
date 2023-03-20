@@ -3,14 +3,12 @@ import React, { FC } from 'react';
 
 interface Props {
 	onPress: () => void;
-	title: string;
+	children: string;
 	style?: ViewStyle | ViewStyle[];
 	disabled?: boolean;
-	joinDisabled?: boolean;
 }
-/* CUSTOM BUTTON COMPONENT THAT LOOKS THE SAME ON ANDROID AND IOS. NEEDED HERE BECAUSE WE USE BACKGROUND
-IMAGES THAT MAKE THE BUTTONS HARD TO SEE ESPECIALLY ON IOS. */
-const CustomButton: FC<Props> = ({ onPress, title, style, disabled, joinDisabled }) => {
+/* CUSTOM BUTTON COMPONENT THAT LOOKS THE SAME ON ANDROID AND IOS. */
+export default function CustomButton({ onPress, children, style, disabled }: Props) {
 	return (
 		<View style={styles.btnOuterContainer}>
 			<Pressable
@@ -26,11 +24,11 @@ const CustomButton: FC<Props> = ({ onPress, title, style, disabled, joinDisabled
 				onPress={onPress}
 				disabled={disabled}
 			>
-				<Text style={disabled ? styles.disabledBtnText : styles.btnText}>{title}</Text>
+				<Text style={disabled ? styles.disabledBtnText : styles.btnText}>{children}</Text>
 			</Pressable>
 		</View>
 	);
-};
+}
 
 const styles = StyleSheet.create({
 	btnOuterContainer: {
@@ -67,5 +65,3 @@ const styles = StyleSheet.create({
 		opacity: 0.75
 	}
 });
-
-export default CustomButton;
