@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 import AuthContent from '../components/auth/AuthContent';
 import { createUser } from '../util/Auth';
 import LoadingSign from '../util/LoadingSign';
-
-/* interface SignupProps {
-	email: string;
-	password: string;
-} */
 
 export default function Signup() {
 	const [ isLoading, setIsLoading ] = useState(false);
