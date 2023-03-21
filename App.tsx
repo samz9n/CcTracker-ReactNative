@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,11 +7,22 @@ import Watchlist from './screens/Watchlist';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
+import AuthContextProvider, { AuthContext } from './store/auth-context';
+import { useContext } from 'react';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function Root() {
+function NotLoggedInStack() {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen name="Login" component={Login} />
+			<Stack.Screen name="Signup" component={Signup} />
+		</Stack.Navigator>
+	);
+}
+
+function LoggedInTabs() {
 	let iconName: string;
 	return (
 		<Tab.Navigator
@@ -34,15 +45,22 @@ function Root() {
 	);
 }
 
-export default function App() {
+function Navigation() {
+	const authCtx = useContext(AuthContext);
+
 	return (
 		<NavigationContainer>
-			<Stack.Navigator>
-				<Stack.Screen name="Login" component={Login} />
-				<Stack.Screen name="Signup" component={Signup} />
-				<Stack.Screen name="Root" component={Root} />
-			</Stack.Navigator>
+			{!authCtx.isAuthenticated && <NotLoggedInStack />}
+			{authCtx.isAuthenticated && <LoggedInTabs />}
 		</NavigationContainer>
+	);
+}
+
+export default function App() {
+	return (
+		<AuthContextProvider>
+			<Navigation />
+		</AuthContextProvider>
 	);
 }
 
