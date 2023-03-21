@@ -12,7 +12,7 @@ import { useContext } from 'react';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-
+/* Navigation when user is not logged in */
 function NotLoggedInStack() {
 	return (
 		<Stack.Navigator>
@@ -21,7 +21,7 @@ function NotLoggedInStack() {
 		</Stack.Navigator>
 	);
 }
-
+/* Navigation when user logs in succesfully */
 function LoggedInTabs() {
 	let iconName: string;
 	return (
@@ -49,6 +49,7 @@ function Navigation() {
 	const authCtx = useContext(AuthContext);
 
 	return (
+		/* Render ui based on authentication (authCtx.isAuthenticated) */
 		<NavigationContainer>
 			{!authCtx.isAuthenticated && <NotLoggedInStack />}
 			{authCtx.isAuthenticated && <LoggedInTabs />}
