@@ -35,23 +35,6 @@ export default function AuthForm(this: any, { isLogin, onSubmit, credentialsInva
 		confirmPassword: passwordsDontMatch
 	} = credentialsInvalid;
 
-	/* function updateInputValueHandler(inputType: string, enteredValue: string) {
-		switch (inputType) {
-			case 'email':
-				setEnteredEmail(enteredValue);
-				break;
-			case 'confirmEmail':
-				setEnteredConfirmEmail(enteredValue);
-				break;
-			case 'password':
-				setEnteredPassword(enteredValue);
-				break;
-			case 'confirmPassword':
-				setEnteredConfirmPassword(enteredValue);
-				break;
-		}
-	} */
-
 	function submitHandler() {
 		onSubmit({
 			email: enteredEmail,

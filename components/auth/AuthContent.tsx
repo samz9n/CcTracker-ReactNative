@@ -6,7 +6,7 @@ import AuthForm from './AuthForm';
 
 interface AuthContentProps {
 	isLogin: boolean;
-	onAuthenticate?: (credentials: { email: string; password: string }) => void;
+	onAuthenticate: (credentials: { email: string; password: string }) => void;
 }
 
 export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
@@ -17,7 +17,7 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 		confirmEmail: false,
 		confirmPassword: false
 	});
-
+	/* Navigates to the right screen depending on if you want to login or signup */
 	function switchAuthModeHandler() {
 		if (isLogin) {
 			navigation.replace('Signup');
@@ -36,8 +36,8 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 
 		email = email.trim();
 		password = password.trim();
-
-		const emailIsValid = email.includes('@');
+		/* Validation of credentials. Firebase requires password to be at least 6 characters long. */
+		const emailIsValid = email.includes('@') && email.includes('.');
 		const passwordIsValid = password.length > 6;
 		const emailsAreEqual = email === confirmEmail;
 		const passwordsAreEqual = password === confirmPassword;
@@ -53,7 +53,9 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 			});
 			return;
 		}
-		/* onAuthenticate({ email, password }); */
+		/* When email and password are valid, the onAuthenticate function is called, 
+		and the values can be sent to backend via signup page. */
+		onAuthenticate({ email, password });
 	}
 
 	return (

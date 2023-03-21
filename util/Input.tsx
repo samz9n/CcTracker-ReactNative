@@ -4,7 +4,7 @@ interface InputProps {
 	label: string;
 	keyboardType?: 'default' | 'email-address' | 'numeric' | 'phone-pad';
 	secure?: boolean;
-	onUpdateValue: () => void;
+	onUpdateValue: (value: string) => void;
 	value: string;
 	isInvalid?: boolean;
 }
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 		marginBottom: 4
 	},
 	labelInvalid: {
-		color: 'red'
+		color: '#ff4848'
 	},
 	input: {
 		paddingVertical: 8,
@@ -44,6 +44,6 @@ const styles = StyleSheet.create({
 		fontSize: 16
 	},
 	inputInvalid: {
-		backgroundColor: 'red'
+		backgroundColor: '#ff4848'
 	}
 });

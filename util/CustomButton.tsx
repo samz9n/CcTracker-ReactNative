@@ -1,5 +1,5 @@
-import { View, Text, ViewStyle, TextStyle, Pressable, StyleSheet } from 'react-native';
-import React, { FC } from 'react';
+import { View, Text, ViewStyle, Pressable, StyleSheet } from 'react-native';
+import React from 'react';
 
 interface Props {
 	onPress: () => void;
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
 	btnText: {
 		color: 'white',
 		fontWeight: 'bold',
-		fontSize: 16
+		fontSize: 16,
+		textAlign: 'center'
 	},
 	pressed: {
 		opacity: 0.75
