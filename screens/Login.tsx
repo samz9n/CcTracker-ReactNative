@@ -13,6 +13,7 @@ export default function Login() {
 	async function loginHandler({ email, password }: { email: string; password: string }) {
 		setIsLoading(true);
 		try {
+			/* Logs the user in and returns a token. loginUser function comes from Auth.tsx */
 			const token = await loginUser(email, password);
 			authCtx.authenticate(token);
 		} catch (error) {

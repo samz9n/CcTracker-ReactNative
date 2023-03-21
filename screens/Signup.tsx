@@ -13,7 +13,7 @@ export default function Signup() {
 	async function signupHandler({ email, password }: { email: string; password: string }) {
 		setIsLoading(true);
 		try {
-			/* Creates a user and returns a token */
+			/* Creates a user and returns a token. createUser function comes from Auth.tsx */
 			const token = await createUser(email, password);
 			authCtx.authenticate(token);
 		} catch (error) {

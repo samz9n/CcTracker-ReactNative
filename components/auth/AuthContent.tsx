@@ -42,7 +42,7 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 		const emailsAreEqual = email === confirmEmail;
 		const passwordsAreEqual = password === confirmPassword;
 
-		/* Checks if the entered credentials are valid */
+		/* Checks if the entered credentials are valid. If invalid, alerts the user and returns. */
 		if (!emailIsValid || !passwordIsValid || (!isLogin && (!emailsAreEqual || !passwordsAreEqual))) {
 			Alert.alert('Invalid input', 'Please check your entered credentials.');
 			setCredentialsInvalid({
@@ -54,7 +54,7 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 			return;
 		}
 		/* When email and password are valid, the onAuthenticate function is called, 
-		and the values can be sent to backend via signup page. */
+		and the values can be sent to backend via signup or login component. */
 		onAuthenticate({ email, password });
 	}
 

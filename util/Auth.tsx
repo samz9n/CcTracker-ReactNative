@@ -17,12 +17,12 @@ async function authenticate(mode: string, email: string, password: string) {
 }
 
 function createUser(email: string, password: string) {
-	// Create a user. Returns a promise with the token
+	// Create a user. Returns authenticate function (a promise with the token)
 	return authenticate('signUp', email, password);
 }
 
 function loginUser(email: string, password: string) {
-	// Login a user. Returns a promise with the token
+	// Login a user. Returns authenticate function (a promise with the token)
 	return authenticate('signInWithPassword', email, password);
 }
 
