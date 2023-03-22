@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import TextButton from '../../util/TextButton';
+import TextButton from '../ui/TextButton';
 import AuthForm from './AuthForm';
 
 interface AuthContentProps {

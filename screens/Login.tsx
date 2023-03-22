@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Alert } from 'react-native';
 import AuthContent from '../components/auth/AuthContent';
 import { loginUser } from '../util/Auth';
-import LoadingSign from '../util/LoadingSign';
+import LoadingSign from '../components/ui/LoadingSign';
 import { AuthContext } from '../store/auth-context';
 
 export default function Login() {

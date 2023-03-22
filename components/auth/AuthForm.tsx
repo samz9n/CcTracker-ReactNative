@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import CustomButton from '../../util/CustomButton';
-import Input from '../../util/Input';
+import CustomButton from '../ui/CustomButton';
+import Input from '../ui/Input';
 
 interface AuthFormProps {
 	isLogin: boolean;

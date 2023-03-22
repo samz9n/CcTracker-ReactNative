@@ -9,9 +9,11 @@ import Login from './screens/Login';
 import Signup from './screens/Signup';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext } from 'react';
+import IconButton from './components/ui/IconButton';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
 /* Navigation when user is not logged in */
 function NotLoggedInStack() {
 	return (
@@ -23,6 +25,7 @@ function NotLoggedInStack() {
 }
 /* Navigation when user logs in succesfully */
 function LoggedInTabs() {
+	const authCtx = useContext(AuthContext);
 	let iconName: string;
 	return (
 		<Tab.Navigator
@@ -36,7 +39,8 @@ function LoggedInTabs() {
 					return <Ionicons name={iconName} size={size} color={color} />;
 				},
 				tabBarActiveTintColor: 'tomato',
-				tabBarInactiveTintColor: 'gray'
+				tabBarInactiveTintColor: 'gray',
+				headerRight: () => <IconButton icon="ios-exit" color="black" size={30} onPress={authCtx.logout} />
 			})}
 		>
 			<Tab.Screen name="Watchlist" component={Watchlist} />
@@ -47,7 +51,6 @@ function LoggedInTabs() {
 
 function Navigation() {
 	const authCtx = useContext(AuthContext);
-
 	return (
 		/* Render ui based on authentication (authCtx.isAuthenticated) */
 		<NavigationContainer>
