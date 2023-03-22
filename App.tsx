@@ -10,6 +10,7 @@ import Signup from './screens/Signup';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext } from 'react';
 import IconButton from './components/ui/IconButton';
+import { StatusBar } from 'expo-status-bar';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -17,7 +18,12 @@ const Tab = createBottomTabNavigator();
 /* Navigation when user is not logged in */
 function NotLoggedInStack() {
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={{
+			headerStyle: {
+				backgroundColor: 'rgb(13, 0, 24)',
+			},
+			headerTintColor: '#fff',
+		}}>
 			<Stack.Screen name="Login" component={Login} />
 			<Stack.Screen name="Signup" component={Signup} />
 		</Stack.Navigator>
@@ -40,7 +46,11 @@ function LoggedInTabs() {
 				},
 				tabBarActiveTintColor: 'tomato',
 				tabBarInactiveTintColor: 'gray',
-				headerRight: () => <IconButton icon="ios-exit" color="black" size={30} onPress={authCtx.logout} />
+				headerRight: () => <IconButton icon="ios-exit" color="white" size={30} onPress={authCtx.logout} />,
+				headerStyle: {
+					backgroundColor: 'rgb(13, 0, 24)',
+				},
+				headerTintColor: '#fff',
 			})}
 		>
 			<Tab.Screen name="Watchlist" component={Watchlist} />
@@ -62,17 +72,12 @@ function Navigation() {
 
 export default function App() {
 	return (
+		<>
+		<StatusBar style='light'></StatusBar>
 		<AuthContextProvider>
 			<Navigation />
 		</AuthContextProvider>
+		</>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center'
-	}
-});
