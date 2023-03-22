@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TextButton from '../ui/TextButton';
 import AuthForm from './AuthForm';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface AuthContentProps {
 	isLogin: boolean;
@@ -59,14 +60,16 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 	}
 
 	return (
-		<View style={styles.authContent}>
-			<AuthForm isLogin={isLogin} onSubmit={submitHandler} credentialsInvalid={credentialsInvalid} />
-			<View style={styles.buttons}>
-				<TextButton onPress={switchAuthModeHandler}>
-					{isLogin ? 'Create a new user' : 'Log in instead'}
-				</TextButton>
+		<KeyboardAwareScrollView>
+			<View style={styles.authContent}>
+				<AuthForm isLogin={isLogin} onSubmit={submitHandler} credentialsInvalid={credentialsInvalid} />
+				<View style={styles.buttons}>
+					<TextButton onPress={switchAuthModeHandler}>
+						{isLogin ? 'Create a new user' : 'Log in instead'}
+					</TextButton>
+				</View>
 			</View>
-		</View>
+		</KeyboardAwareScrollView>
 	);
 }
 
@@ -77,10 +80,10 @@ const styles = StyleSheet.create({
 		padding: 16,
 		borderRadius: 8,
 		backgroundColor: '#520136',
-		elevation: 2,
+		elevation: 4,
 		shadowColor: 'black',
 		shadowOffset: { width: 1, height: 1 },
-		shadowOpacity: 0.35,
+		shadowOpacity: 0.8,
 		shadowRadius: 4
 	},
 	buttons: {
