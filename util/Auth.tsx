@@ -1,7 +1,6 @@
 /* Request logic for authentication via Firebase */
 import axios from 'axios';
-
-const API_KEY = 'AIzaSyBRuRGv4c6bZ0l1DHieH0YbS3yTr-6KbLU';
+import { API_KEY } from './api-key';
 
 async function authenticate(mode: string, email: string, password: string) {
 	// Authenticate user
