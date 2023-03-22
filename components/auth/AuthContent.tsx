@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, View } from 'react-native';
+import { Alert, ImageBackground, StyleSheet, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import TextButton from '../ui/TextButton';
 import AuthForm from './AuthForm';
@@ -60,20 +60,31 @@ export default function AuthContent({ isLogin, onAuthenticate }: AuthContentProp
 	}
 
 	return (
-		<KeyboardAwareScrollView>
-			<View style={styles.authContent}>
-				<AuthForm isLogin={isLogin} onSubmit={submitHandler} credentialsInvalid={credentialsInvalid} />
-				<View style={styles.buttons}>
-					<TextButton onPress={switchAuthModeHandler}>
-						{isLogin ? 'Create a new user' : 'Log in instead'}
-					</TextButton>
-				</View>
-			</View>
-		</KeyboardAwareScrollView>
+		<View style={styles.container}>
+			<ImageBackground
+				style={styles.container}
+				source={require('../../assets/images/ScatteredCryptos.png')}
+				resizeMode="cover"
+			>
+				<KeyboardAwareScrollView>
+					<View style={styles.authContent}>
+						<AuthForm isLogin={isLogin} onSubmit={submitHandler} credentialsInvalid={credentialsInvalid} />
+						<View style={styles.buttons}>
+							<TextButton onPress={switchAuthModeHandler}>
+								{isLogin ? 'Create a new user' : 'Log in instead'}
+							</TextButton>
+						</View>
+					</View>
+				</KeyboardAwareScrollView>
+			</ImageBackground>
+		</View>
 	);
 }
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1
+	},
 	authContent: {
 		marginTop: 48,
 		marginHorizontal: 32,
