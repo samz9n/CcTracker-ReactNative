@@ -4,7 +4,7 @@ interface LoadingSignProps {
 	message: string;
 }
 
-function LoadingSign({ message }: LoadingSignProps) {
+export default function LoadingSign({ message }: LoadingSignProps) {
 	return (
 		<View style={styles.rootContainer}>
 			<Text style={styles.message}>{message}</Text>
@@ -12,8 +12,6 @@ function LoadingSign({ message }: LoadingSignProps) {
 		</View>
 	);
 }
-
-export default LoadingSign;
 
 const styles = StyleSheet.create({
 	rootContainer: {

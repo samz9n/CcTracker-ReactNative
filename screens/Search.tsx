@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-export default function Watchlist() {
+export default function Search() {
 	return (
 		<View style={styles.container}>
-			<Text>Watchlist</Text>
+			<Text>Search</Text>
 		</View>
 	);
 }

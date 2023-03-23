@@ -7,6 +7,7 @@ import Watchlist from './screens/Watchlist';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
+import Search from './screens/Search';
 import AuthContextProvider, { AuthContext } from './store/auth-context';
 import { useContext } from 'react';
 import IconButton from './components/ui/IconButton';
@@ -41,6 +42,8 @@ function LoggedInTabs() {
 						iconName = focused ? 'ios-newspaper' : 'ios-newspaper-outline';
 					} else if (route.name === 'Watchlist') {
 						iconName = focused ? 'md-star-sharp' : 'md-star-outline';
+					} else if (route.name === 'Search') {
+						iconName = focused ? 'ios-search' : 'ios-search-outline';
 					}
 					return <Ionicons name={iconName} size={size} color={color} />;
 				},
@@ -51,9 +54,14 @@ function LoggedInTabs() {
 					backgroundColor: 'rgb(13, 0, 24)',
 				},
 				headerTintColor: '#fff',
+				headerTitleStyle: {
+					fontWeight: 'bold',
+					fontSize: 30,
+				},
 			})}
 		>
 			<Tab.Screen name="Watchlist" component={Watchlist} />
+			<Tab.Screen name="Search" component={Search} />
 			<Tab.Screen name="News" component={News} />
 		</Tab.Navigator>
 	);

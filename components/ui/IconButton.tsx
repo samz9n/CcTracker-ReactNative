@@ -8,15 +8,13 @@ interface IconButtonProps {
 	onPress: () => void;
 }
 
-function IconButton({ icon, color, size, onPress }: IconButtonProps) {
+export default function IconButton({ icon, color, size, onPress }: IconButtonProps) {
 	return (
 		<Pressable style={({ pressed }) => [ styles.button, pressed && styles.pressed ]} onPress={onPress}>
 			<Ionicons name={icon} color={color} size={size} />
 		</Pressable>
 	);
 }
-
-export default IconButton;
 
 const styles = StyleSheet.create({
 	button: {

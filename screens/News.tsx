@@ -18,10 +18,15 @@ import axios from 'axios';
 
 export default function News() {
 	return (
-		<View>
+		<View style={styles.container}>
 			<Text>News</Text>
 		</View>
 	);
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: 'rgb(13, 0, 24)'
+	}
+});
