@@ -23,18 +23,26 @@ export default function CoinListButton({ onPress, symbol, name, price, priceChan
 					];
 				}}
 			>
-				<View style={styles.button}>
-					<View>
-						<Image source={{ uri: image }} style={{ width: 30, height: 30 }} />
+				<View style={styles.buttonInner}>
+					<View style={styles.imgView}>
+						<Image source={{ uri: image }} style={styles.img} />
 					</View>
 					<View style={styles.textAndPriceContainer}>
 						<View style={styles.textAndPrice}>
-							<Text>{symbol}</Text>
-							<Text>{price}</Text>
+							<Text style={{ color: 'white', fontWeight: 'bold' }}>{symbol.toUpperCase() + '/USD'}</Text>
+							<Text style={{ color: 'rgb(216, 213, 213)' }}>{name}</Text>
 						</View>
 						<View style={styles.textAndPrice}>
-							<Text>{name}</Text>
-							<Text>{priceChange}</Text>
+							<Text style={{ color: 'white', fontWeight: 'bold' }}>{price}</Text>
+							{/* Add plus sign if pricechange is positive and color depending on positive or negative price. */}
+							<Text
+								style={{
+									color: priceChange >= 0 ? 'rgb(96, 255, 123)' : 'rgb(255, 88, 88)',
+									textAlign: 'right'
+								}}
+							>
+								{priceChange >= 0 ? '+' + priceChange + '%' : priceChange + '%'}
+							</Text>
 						</View>
 					</View>
 				</View>
@@ -46,14 +54,27 @@ export default function CoinListButton({ onPress, symbol, name, price, priceChan
 const styles = StyleSheet.create({
 	buttonContainer: {
 		backgroundColor: 'rgb(13, 0, 24)',
-		height: 200,
-		width: '100%'
+		height: 70,
+		marginHorizontal: 10
 	},
-	button: {},
+	buttonInner: {
+		width: '100%',
+		flexDirection: 'row',
+		height: '100%'
+	},
 	textAndPriceContainer: {
-		flexDirection: 'row'
+		flexDirection: 'row',
+		flex: 5,
+		justifyContent: 'space-between',
+		padding: 5
 	},
 	textAndPrice: {
 		justifyContent: 'space-between'
-	}
+	},
+	imgView: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	img: { width: 40, height: 40 }
 });
