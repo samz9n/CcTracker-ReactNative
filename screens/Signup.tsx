@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import AuthContent from '../components/auth/AuthContent';
-import { createUser } from '../util/Auth';
+import { createUser } from '../util/auth';
 import LoadingSign from '../components/ui/LoadingSign';
 import { AuthContext } from '../store/auth-context';
 

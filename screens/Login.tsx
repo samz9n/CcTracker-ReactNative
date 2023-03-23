@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Alert } from 'react-native';
 import AuthContent from '../components/auth/AuthContent';
-import { loginUser } from '../util/Auth';
+import { loginUser } from '../util/auth';
 import LoadingSign from '../components/ui/LoadingSign';
 import { AuthContext } from '../store/auth-context';
 
