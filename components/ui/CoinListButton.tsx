@@ -29,11 +29,11 @@ export default function CoinListButton({ onPress, symbol, name, price, priceChan
 					</View>
 					<View style={styles.textAndPriceContainer}>
 						<View style={styles.textAndPrice}>
-							<Text style={{ color: 'white', fontWeight: 'bold' }}>{symbol.toUpperCase() + '/USD'}</Text>
+							<Text style={styles.symbolAndPrice}>{symbol.toUpperCase() + '/USD'}</Text>
 							<Text style={{ color: 'rgb(216, 213, 213)' }}>{name}</Text>
 						</View>
 						<View style={styles.textAndPrice}>
-							<Text style={{ color: 'white', fontWeight: 'bold' }}>{price}</Text>
+							<Text style={[ styles.symbolAndPrice, styles.priceAlignRight ]}>{price}</Text>
 							{/* Add plus sign if pricechange is positive and color depending on positive or negative price. */}
 							<Text
 								style={{
@@ -76,5 +76,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center'
 	},
-	img: { width: 40, height: 40 }
+	img: { width: 40, height: 40 },
+	symbolAndPrice: {
+		color: 'white',
+		fontWeight: 'bold',
+		fontSize: 18
+	},
+	priceAlignRight: {
+		textAlign: 'right'
+	}
 });
