@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { fetchTop100 } from '../util/cryptoRest';
 import CoinListButton from '../components/ui/CoinListButton';
 import ListSeparator from '../components/ui/ListSeparator';
-import { SearchBar } from '@rneui/themed';
-import { useNavigation } from '@react-navigation/native';
 import LoadingSign from '../components/ui/LoadingSign';
+import Searchbar from '../components/ui/Searchbar';
 
 interface Coin {
 	id: string;
@@ -19,8 +18,8 @@ interface Coin {
 export default function Search() {
 	const [ top100, setTop100 ] = useState<Coin[]>([]);
 	const [ filteredCoinList, setFilteredCoinList ] = useState<Coin[]>([]);
+	const [ searchText, setSearchText ] = useState('');
 	const [ isLoading, setIsLoading ] = useState(false);
-	const navigation = useNavigation();
 
 	/* We fetch the top 100 coins and set them to state so we can map them later on */
 	useEffect(() => {
@@ -34,57 +33,27 @@ export default function Search() {
 		getTop100();
 	}, []);
 
-	/* Adding a search bar to the header for this screen */
-	useEffect(
-		() => {
-			navigation.setOptions({
-				headerSearchBar: true,
-				headerSearchBarOptions: {
-					placeholder: 'Search Here...',
-					onChangeText: (text: string) => searchFunction(text)
-				}
-			});
-		},
-		[ navigation ]
-	);
-
 	function searchFunction(text: string) {
 		if (text) {
 			const filteredList = top100.filter((item) => {
 				const coinName = item.name.toUpperCase();
 				const txtInput = text.toUpperCase();
 				const coinSymbol = item.symbol.toUpperCase();
-				return coinName.indexOf(txtInput) > -1;
+				return coinName.indexOf(txtInput) > -1 || coinSymbol.indexOf(txtInput) > -1;
 			});
 			setFilteredCoinList(filteredList);
+			setSearchText(text);
 		} else {
 			setFilteredCoinList(top100);
+			setSearchText('');
 		}
 	}
-
-	/* Search function for the searchbar */
-	/* function searchFunction(text: string) {
-		const updatedData = top100.filter((item) => {
-			const coinName = item.name.toUpperCase();
-			const txtInput = text.toUpperCase();
-			const coinSymbol = item.symbol.toUpperCase();
-			return coinName.indexOf(txtInput) > -1 || coinSymbol.indexOf(txtInput) > -1;
-		});
-		setSearchValue(text);
-	} */
 
 	if (isLoading) return <LoadingSign message="Fetching coins..." />;
 
 	return (
 		<View style={styles.container}>
-			{/* <SearchBar
-				placeholder="Search Here..."
-				lightTheme
-				round
-				value={searchValue}
-				onChangeText={(text) => searchFunction(text)}
-				autoCorrect={false}
-			/> */}
+			<Searchbar onChangeText={(text) => searchFunction(text)} value={searchText} />
 			{/* List of top 100 coins, rendered with CoinListButton component */}
 			<FlatList
 				data={filteredCoinList}
