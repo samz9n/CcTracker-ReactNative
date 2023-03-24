@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 	symbolAndPrice: {
 		color: 'white',
 		fontWeight: 'bold',
-		fontSize: 18
+		fontSize: 17
 	},
 	priceAlignRight: {
 		textAlign: 'right'
