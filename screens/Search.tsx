@@ -5,6 +5,7 @@ import CoinListButton from '../components/ui/CoinListButton';
 import ListSeparator from '../components/ui/ListSeparator';
 import { SearchBar } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
+import LoadingSign from '../components/ui/LoadingSign';
 
 interface Coin {
 	id: string;
@@ -18,14 +19,17 @@ interface Coin {
 export default function Search() {
 	const [ top100, setTop100 ] = useState<Coin[]>([]);
 	const [ filteredCoinList, setFilteredCoinList ] = useState<Coin[]>([]);
+	const [ isLoading, setIsLoading ] = useState(false);
 	const navigation = useNavigation();
 
 	/* We fetch the top 100 coins and set them to state so we can map them later on */
 	useEffect(() => {
 		async function getTop100() {
+			setIsLoading(true);
 			const coins = await fetchTop100();
 			setTop100(coins);
 			setFilteredCoinList(coins);
+			setIsLoading(false);
 		}
 		getTop100();
 	}, []);
@@ -68,6 +72,8 @@ export default function Search() {
 		});
 		setSearchValue(text);
 	} */
+
+	if (isLoading) return <LoadingSign message="Fetching coins..." />;
 
 	return (
 		<View style={styles.container}>
