@@ -1,41 +1,48 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useState } from 'react'
+import { Coin } from '../types/types'
 
 export const WatchlistContext = createContext({
-    watchlist: Array<any>,
-    addToWatchlist: (coin: any) => {},
-    removeFromWatchlist: (coin: any) => {},
-    isInWatchlist: (coin: any) => {}
-});
+  watchlist: [] as Coin[],
+  addToWatchlist: (coin: Coin) => {},
+  removeFromWatchlist: (coin: Coin) => {},
+  isInWatchlist: (coin: Coin) => {},
+})
 
 interface WatchlistContextProviderProps {
-	children: ReactNode;
+  children: ReactNode
 }
 
-export default function WatchlistContextProvider({ children }: WatchlistContextProviderProps) {
-    const [ watchlist, setWatchlist ] = useState<object[]>([]);
+export default function WatchlistContextProvider({
+  children,
+}: WatchlistContextProviderProps) {
+  const [watchlist, setWatchlist] = useState<Coin[]>([])
 
-    function addToWatchlist(coin: any) {
-        setWatchlist((prevWatchlist) => {
-            return [ ...prevWatchlist, coin ];
-        });
-    }
+  function addToWatchlist(coin: Coin) {
+    setWatchlist((prevWatchlist) => {
+      return [...prevWatchlist, coin]
+    })
+  }
 
-    function removeFromWatchlist(coin: any) {
-        setWatchlist((prevWatchlist) => {
-            return prevWatchlist.filter((item: any) => item.id !== coin.id);
-        });
-    }
+  function removeFromWatchlist(coin: Coin) {
+    setWatchlist((prevWatchlist) => {
+      return prevWatchlist.filter((item: Coin) => item.id !== coin.id)
+    })
+  }
 
-    function isInWatchlist(coin: any) {
-        return watchlist.some((item: any) => item.id === coin.id);
-    }
+  function isInWatchlist(coin: Coin) {
+    return watchlist.some((item: Coin) => item.id === coin.id)
+  }
 
-    const value = {
-        watchlist: watchlist,
-        addToWatchlist: addToWatchlist,
-        removeFromWatchlist: removeFromWatchlist,
-        isInWatchlist: isInWatchlist
-    };
+  const value = {
+    watchlist: watchlist,
+    addToWatchlist: addToWatchlist,
+    removeFromWatchlist: removeFromWatchlist,
+    isInWatchlist: isInWatchlist,
+  }
 
-    return <WatchlistContext.Provider value={value}>{children}</WatchlistContext.Provider>;
+  return (
+    <WatchlistContext.Provider value={value}>
+      {children}
+    </WatchlistContext.Provider>
+  )
 }
