@@ -1,11 +1,18 @@
 import { createContext, ReactNode, useState } from 'react'
 import { Coin } from '../types/types'
 
-export const WatchlistContext = createContext({
+interface WatchlistContextProps {
+  watchlist: Coin[]
+  addToWatchlist: (coin: Coin) => void
+  removeFromWatchlist: (coin: Coin) => void
+  isInWatchlist: (coin: Coin) => boolean
+}
+
+export const WatchlistContext = createContext<WatchlistContextProps>({
   watchlist: [] as Coin[],
   addToWatchlist: (coin: Coin) => {},
   removeFromWatchlist: (coin: Coin) => {},
-  isInWatchlist: (coin: Coin) => {},
+  isInWatchlist: (coin: Coin) => false,
 })
 
 interface WatchlistContextProviderProps {
