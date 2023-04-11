@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { fetchTop100 } from '../util/cryptoRest'
 import CoinListButton from '../components/ui/CoinListButton'
@@ -30,6 +30,7 @@ export default function Search() {
 
   function searchFunction(text: string) {
     if (text) {
+      /* we filter the top 100 coins based on the user input, and use this as the data for the FlatList */
       const filteredList = top100.filter((item) => {
         const coinName = item.name.toUpperCase()
         const txtInput = text.toUpperCase()
@@ -55,11 +56,6 @@ export default function Search() {
 
   return (
     <View style={styles.container}>
-      <CoinModal
-        isVisible={isModalVisible}
-        closeModal={closeModal}
-        coin={selectedCoin}
-      ></CoinModal>
       <Searchbar
         onChangeText={(text) => searchFunction(text)}
         value={searchText}
@@ -85,6 +81,11 @@ export default function Search() {
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ListSeparator}
       />
+      <CoinModal
+        isVisible={isModalVisible}
+        closeModal={closeModal}
+        coin={selectedCoin}
+      ></CoinModal>
     </View>
   )
 }
