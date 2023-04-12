@@ -1,16 +1,15 @@
-import { FlatList, StyleSheet, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React, { useCallback, useMemo, useEffect, useState } from 'react'
 import { fetchTop100 } from '../util/cryptoRest'
-import CoinListButton from '../components/ui/CoinListButton'
-import ListSeparator from '../components/ui/ListSeparator'
 import LoadingSign from '../components/ui/LoadingSign'
 import Searchbar from '../components/ui/Searchbar'
 import { Coin } from '../types/types'
 import CoinModal from '../components/ui/CoinModal'
+import CoinList from '../components/ui/CoinList'
 
 export default function Search() {
   const [top100, setTop100] = useState<Coin[]>([])
-  const [filteredCoinList, setFilteredCoinList] = useState<Coin[]>([])
+  /* const [filteredCoinList, setFilteredCoinList] = useState<Coin[]>([]) */
   const [searchText, setSearchText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
@@ -22,65 +21,45 @@ export default function Search() {
       setIsLoading(true)
       const coins = await fetchTop100()
       setTop100(coins)
-      setFilteredCoinList(coins)
+      /* setFilteredCoinList(coins) */
       setIsLoading(false)
     }
     getTop100()
   }, [])
 
-  function searchFunction(text: string) {
-    if (text) {
-      /* we filter the top 100 coins based on the user input, and use this as the data for the FlatList */
-      const filteredList = top100.filter((item) => {
-        const coinName = item.name.toUpperCase()
-        const txtInput = text.toUpperCase()
-        const coinSymbol = item.symbol.toUpperCase()
-        return (
-          coinName.indexOf(txtInput) > -1 || coinSymbol.indexOf(txtInput) > -1
-        )
-      })
-      setFilteredCoinList(filteredList)
-      setSearchText(text)
-    } else {
-      setFilteredCoinList(top100)
-      setSearchText('')
-    }
-  }
+  const handleSearch = useCallback((text: string) => {
+    setSearchText(text)
+  }, [])
+
+  const filteredCoins = useMemo(() => {
+    const filteredList = top100.filter((item) => {
+      const coinName = item.name.toUpperCase()
+      const txtInput = searchText.toUpperCase()
+      const coinSymbol = item.symbol.toUpperCase()
+      return (
+        coinName.indexOf(txtInput) > -1 || coinSymbol.indexOf(txtInput) > -1
+      )
+    })
+    return filteredList
+  }, [top100, searchText])
 
   function closeModal() {
     setIsModalVisible(false)
     setSelectedCoin(null)
   }
 
+  function onPressCoin(coin: Coin) {
+    setSelectedCoin(coin)
+    setIsModalVisible(true)
+  }
+
   if (isLoading) return <LoadingSign message='Fetching coins...' />
 
   return (
     <View style={styles.container}>
-      <Searchbar
-        onChangeText={(text) => searchFunction(text)}
-        value={searchText}
-      />
+      <Searchbar onChangeText={handleSearch} value={searchText} />
       {/* List of top 100 coins, rendered with CoinListButton component */}
-      <FlatList
-        data={filteredCoinList}
-        renderItem={({ item }) => {
-          return (
-            <CoinListButton
-              onPress={() => {
-                setSelectedCoin(item)
-                setIsModalVisible(true)
-              }}
-              symbol={item.symbol}
-              name={item.name}
-              price={item.price}
-              priceChange={item.priceChange}
-              image={item.image}
-            />
-          )
-        }}
-        keyExtractor={(item) => item.id}
-        ItemSeparatorComponent={ListSeparator}
-      />
+      <CoinList coins={filteredCoins} onPressCoin={onPressCoin}></CoinList>
       <CoinModal
         isVisible={isModalVisible}
         closeModal={closeModal}
