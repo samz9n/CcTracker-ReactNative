@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
   StyleSheet,
   Modal,
@@ -7,12 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Coin } from '../../types/types'
 import { WatchlistContext } from '../../store/watchlist-context'
 import { Snackbar } from '@react-native-material/core'
+import { getCandleChartData } from '../../util/cryptoRest'
+import { CandlestickChart } from 'react-native-wagmi-charts'
 
 interface ModalProps {
   isVisible: boolean
@@ -20,13 +23,27 @@ interface ModalProps {
   coin: Coin | null
 }
 
+/* const filterDaysArray = [
+  { filterDay: "1", filterText: "24h" },
+  { filterDay: "7", filterText: "7d" },
+  { filterDay: "30", filterText: "30d" },
+  { filterDay: "365", filterText: "1y" },
+  { filterDay: "max", filterText: "All" },
+]; */
+
 function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
+  //render only if modal is visible (isVisible). Stops the modal from rendering in other components when it's not visible.
+  if (!isVisible) {
+    return null
+  }
   const watchlistCtx = useContext(WatchlistContext)
   const [snackAddVisible, setSnackAddVisible] = useState(false)
   const [snackRemoveVisible, setSnackRemoveVisible] = useState(false)
+  const [coinCandleChartData, setCoinCandleChartData] = useState<any[]>([])
+  /* const [selectedRange, setSelectedRange] = useState("1"); */
 
+  const screenWidth = Dimensions.get('window').width
   let favoriteIcon = 'heart-outline'
-
   if (coin !== null) {
     if (watchlistCtx.isInWatchlist(coin)) {
       favoriteIcon = 'heart'
@@ -52,6 +69,21 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
       }, 2000)
     }
   }
+
+  const fetchCandleStickChartData = async (selectedRangeValue: number) => {
+    if (!coin) return
+    const fetchedSelectedCandleChartData = await getCandleChartData(
+      coin.name,
+      selectedRangeValue
+    )
+    setCoinCandleChartData(fetchedSelectedCandleChartData)
+  }
+
+  useEffect(() => {
+    console.log('coin', coin?.name)
+    fetchCandleStickChartData(1)
+    console.log('coinCandleChartData', coinCandleChartData)
+  }, [])
 
   return (
     /* Makes the modal swipeable (swipe down to close) */
@@ -114,6 +146,59 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
                     : ''}
                 </Text>
               </View>
+              {coinCandleChartData !== undefined && (
+                <CandlestickChart.Provider
+                  data={coinCandleChartData.map(
+                    ([timestamp, open, high, low, close]: any) => ({
+                      timestamp,
+                      open,
+                      high,
+                      low,
+                      close,
+                    })
+                  )}
+                >
+                  <CandlestickChart height={screenWidth} width={screenWidth}>
+                    <CandlestickChart.Candles />
+                    <CandlestickChart.Crosshair>
+                      <CandlestickChart.Tooltip />
+                    </CandlestickChart.Crosshair>
+                  </CandlestickChart>
+                  <View style={styles.candleStickDataContainer}>
+                    <View>
+                      <Text style={styles.candleStickTextLabel}>Open</Text>
+                      <CandlestickChart.PriceText
+                        style={styles.candleStickText}
+                        type='open'
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.candleStickTextLabel}>High</Text>
+                      <CandlestickChart.PriceText
+                        style={styles.candleStickText}
+                        type='high'
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.candleStickTextLabel}>Low</Text>
+                      <CandlestickChart.PriceText
+                        style={styles.candleStickText}
+                        type='low'
+                      />
+                    </View>
+                    <View>
+                      <Text style={styles.candleStickTextLabel}>Close</Text>
+                      <CandlestickChart.PriceText
+                        style={styles.candleStickText}
+                        type='close'
+                      />
+                    </View>
+                  </View>
+                  <CandlestickChart.DatetimeText
+                    style={{ color: 'white', fontWeight: '700', margin: 10 }}
+                  />
+                </CandlestickChart.Provider>
+              )}
             </ScrollView>
           </View>
         </View>
@@ -198,6 +283,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
   },
+  candleStickText: {
+    color: 'white',
+    fontWeight: '700',
+  },
+  candleStickDataContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 10,
+    marginTop: 20,
+  },
+  candleStickTextLabel: {
+    color: 'grey',
+    fontSize: 13,
+  },
 })
 
-export default CoinModal
+export default React.memo(CoinModal)
