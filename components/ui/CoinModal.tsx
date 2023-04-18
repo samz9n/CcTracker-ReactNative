@@ -10,12 +10,14 @@ import {
   Dimensions,
 } from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Coin } from '../../types/types'
 import { WatchlistContext } from '../../store/watchlist-context'
 import { Snackbar } from '@react-native-material/core'
 import { getCandleChartData } from '../../util/cryptoRest'
 import { CandlestickChart } from 'react-native-wagmi-charts'
+import LoadingSign from './LoadingSign'
 
 interface ModalProps {
   isVisible: boolean
@@ -39,7 +41,9 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   const watchlistCtx = useContext(WatchlistContext)
   const [snackAddVisible, setSnackAddVisible] = useState(false)
   const [snackRemoveVisible, setSnackRemoveVisible] = useState(false)
-  const [coinCandleChartData, setCoinCandleChartData] = useState<any[]>([])
+  const [coinCandleChartData, setCoinCandleChartData] = useState<
+    any[] | null | undefined
+  >(null)
   /* const [selectedRange, setSelectedRange] = useState("1"); */
 
   const screenWidth = Dimensions.get('window').width
@@ -82,8 +86,11 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   useEffect(() => {
     console.log('coin', coin?.name)
     fetchCandleStickChartData(1)
-    console.log('coinCandleChartData', coinCandleChartData)
   }, [])
+
+  useEffect(() => {
+    console.log('coinCandleChartData', coinCandleChartData)
+  }, [coinCandleChartData])
 
   return (
     /* Makes the modal swipeable (swipe down to close) */
@@ -130,74 +137,84 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
                 on positive or negative price. */}
                 <Text
                   style={{
-                    color:
-                      coin !== null
-                        ? coin.priceChange >= 0
-                          ? 'rgb(96, 255, 123)'
-                          : 'rgb(255, 88, 88)'
-                        : 'white',
+                    color: coin
+                      ? coin.priceChange >= 0
+                        ? 'rgb(96, 255, 123)'
+                        : 'rgb(255, 88, 88)'
+                      : 'white',
                     fontSize: 16,
                   }}
                 >
-                  {coin !== null
+                  {coin
                     ? coin.priceChange >= 0
                       ? '+' + coin?.priceChange + '% today'
                       : coin?.priceChange + '% today'
                     : ''}
                 </Text>
               </View>
-              {coinCandleChartData !== undefined && (
-                <CandlestickChart.Provider
-                  data={coinCandleChartData.map(
-                    ([timestamp, open, high, low, close]: any) => ({
-                      timestamp,
-                      open,
-                      high,
-                      low,
-                      close,
-                    })
-                  )}
-                >
-                  <CandlestickChart height={screenWidth} width={screenWidth}>
-                    <CandlestickChart.Candles />
-                    <CandlestickChart.Crosshair>
-                      <CandlestickChart.Tooltip />
-                    </CandlestickChart.Crosshair>
-                  </CandlestickChart>
-                  <View style={styles.candleStickDataContainer}>
-                    <View>
-                      <Text style={styles.candleStickTextLabel}>Open</Text>
-                      <CandlestickChart.PriceText
-                        style={styles.candleStickText}
-                        type='open'
-                      />
+              {coinCandleChartData && (
+                <GestureHandlerRootView>
+                  <CandlestickChart.Provider
+                    data={coinCandleChartData.map(
+                      ([timestamp, open, high, low, close]: any) => ({
+                        timestamp,
+                        open,
+                        high,
+                        low,
+                        close,
+                      })
+                    )}
+                  >
+                    <CandlestickChart height={screenWidth} width={screenWidth}>
+                      <CandlestickChart.Candles />
+                      <CandlestickChart.Crosshair>
+                        <CandlestickChart.Tooltip
+                          textStyle={{
+                            color: 'white',
+                          }}
+                        />
+                      </CandlestickChart.Crosshair>
+                    </CandlestickChart>
+                    <View style={styles.candleStickDataContainer}>
+                      <View>
+                        <Text style={styles.candleStickTextLabel}>Open</Text>
+                        <CandlestickChart.PriceText
+                          style={styles.candleStickText}
+                          type='open'
+                        />
+                      </View>
+                      <View>
+                        <Text style={styles.candleStickTextLabel}>High</Text>
+                        <CandlestickChart.PriceText
+                          style={styles.candleStickText}
+                          type='high'
+                        />
+                      </View>
+                      <View>
+                        <Text style={styles.candleStickTextLabel}>Low</Text>
+                        <CandlestickChart.PriceText
+                          style={styles.candleStickText}
+                          type='low'
+                        />
+                      </View>
+                      <View>
+                        <Text style={styles.candleStickTextLabel}>Close</Text>
+                        <CandlestickChart.PriceText
+                          style={styles.candleStickText}
+                          type='close'
+                        />
+                      </View>
                     </View>
-                    <View>
-                      <Text style={styles.candleStickTextLabel}>High</Text>
-                      <CandlestickChart.PriceText
-                        style={styles.candleStickText}
-                        type='high'
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.candleStickTextLabel}>Low</Text>
-                      <CandlestickChart.PriceText
-                        style={styles.candleStickText}
-                        type='low'
-                      />
-                    </View>
-                    <View>
-                      <Text style={styles.candleStickTextLabel}>Close</Text>
-                      <CandlestickChart.PriceText
-                        style={styles.candleStickText}
-                        type='close'
-                      />
-                    </View>
-                  </View>
-                  <CandlestickChart.DatetimeText
-                    style={{ color: 'white', fontWeight: '700', margin: 10 }}
-                  />
-                </CandlestickChart.Provider>
+                    <CandlestickChart.DatetimeText
+                      style={{ color: 'white', fontWeight: '700', margin: 10 }}
+                    />
+                  </CandlestickChart.Provider>
+                </GestureHandlerRootView>
+              )}
+              {!coinCandleChartData && (
+                <View style={{ marginTop: 30 }}>
+                  <LoadingSign message='Chart opening...'></LoadingSign>
+                </View>
               )}
             </ScrollView>
           </View>
@@ -223,7 +240,7 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'rgb(24, 0, 26)',
-    height: '82%',
+    height: '88%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderTopWidth: 1,
@@ -296,6 +313,12 @@ const styles = StyleSheet.create({
   candleStickTextLabel: {
     color: 'grey',
     fontSize: 13,
+  },
+  errorText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 50,
   },
 })
 
