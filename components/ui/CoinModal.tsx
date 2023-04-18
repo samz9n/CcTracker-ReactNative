@@ -44,11 +44,10 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   const [coinCandleChartData, setCoinCandleChartData] = useState<
     any[] | null | undefined
   >(null)
-  /* const [selectedRange, setSelectedRange] = useState("1"); */
 
   const screenWidth = Dimensions.get('window').width
   let favoriteIcon = 'heart-outline'
-  if (coin !== null) {
+  if (coin) {
     if (watchlistCtx.isInWatchlist(coin)) {
       favoriteIcon = 'heart'
     } else {
@@ -57,7 +56,7 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   }
 
   function toggleWatchlist() {
-    //Add coin to watchlist
+    //Add coin to watchlist (also remove if already in watchlist)
     if (coin !== null && !watchlistCtx.isInWatchlist(coin)) {
       watchlistCtx.addToWatchlist(coin)
       setSnackAddVisible(true)
@@ -84,13 +83,9 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   }
 
   useEffect(() => {
-    console.log('coin', coin?.name)
+    //Fetch candlestick chart data for 1 day
     fetchCandleStickChartData(1)
   }, [])
-
-  useEffect(() => {
-    console.log('coinCandleChartData', coinCandleChartData)
-  }, [coinCandleChartData])
 
   return (
     /* Makes the modal swipeable (swipe down to close) */
