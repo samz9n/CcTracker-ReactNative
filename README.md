@@ -4,7 +4,7 @@ This mobile application is a cryptocurrency tracker, where you can select favori
 
 Built with React Native, with Firebase as a backend. Firebase also takes care of the authentication. 
 
-State is managed with React Context, and also traditional useStates.
+Authentication and watchlist states are managed with React Context meanwhile simple parent to child states are managed with traditional useState
 
 For fetching the top 100 cryptocurrencies, the app uses Goingeckos free API (https://www.coingecko.com/en/api/documentation)
 
