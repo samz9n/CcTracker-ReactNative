@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import {
   StyleSheet,
   Modal,
@@ -18,6 +18,7 @@ import { Snackbar } from '@react-native-material/core'
 import { getCandleChartData } from '../../util/cryptoRest'
 import { CandlestickChart } from 'react-native-wagmi-charts'
 import LoadingSign from './LoadingSign'
+import FilterComponent from './FilterComponent'
 
 interface ModalProps {
   isVisible: boolean
@@ -25,13 +26,13 @@ interface ModalProps {
   coin: Coin | null
 }
 
-/* const filterDaysArray = [
-  { filterDay: "1", filterText: "24h" },
-  { filterDay: "7", filterText: "7d" },
-  { filterDay: "30", filterText: "30d" },
-  { filterDay: "365", filterText: "1y" },
-  { filterDay: "max", filterText: "All" },
-]; */
+const filterDaysArray = [
+  { filterDay: '1', filterText: '24h' },
+  { filterDay: '7', filterText: '7d' },
+  { filterDay: '30', filterText: '30d' },
+  { filterDay: '365', filterText: '1y' },
+  { filterDay: 'max', filterText: 'All' },
+]
 
 function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   //render only if modal is visible (isVisible). Stops the modal from rendering in other components when it's not visible.
@@ -44,6 +45,8 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
   const [coinCandleChartData, setCoinCandleChartData] = useState<
     any[] | null | undefined
   >(null)
+  const [selectedRange, setSelectedRange] = useState('1')
+  const [errFetch, setErrFetch] = useState(false)
 
   const screenWidth = Dimensions.get('window').width
   let favoriteIcon = 'heart-outline'
@@ -80,10 +83,21 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
       selectedRangeValue
     )
     setCoinCandleChartData(fetchedSelectedCandleChartData)
+    setErrFetch(false)
+
+    if (!fetchedSelectedCandleChartData) {
+      setCoinCandleChartData([])
+      setErrFetch(true)
+    }
   }
 
+  const onSelectedRangeChange = useCallback((selectedRangeValue: string) => {
+    setSelectedRange(selectedRangeValue)
+    fetchCandleStickChartData(parseInt(selectedRangeValue))
+  }, [])
+
   useEffect(() => {
-    //Fetch candlestick chart data for 1 day
+    //Fetch candlestick chart data for 1 day as default when modal is opened
     fetchCandleStickChartData(1)
   }, [])
 
@@ -146,6 +160,17 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
                       : coin?.priceChange + '% today'
                     : ''}
                 </Text>
+              </View>
+              <View style={styles.filtersContainer}>
+                {filterDaysArray.map((day) => (
+                  <FilterComponent
+                    filterDay={day.filterDay}
+                    filterText={day.filterText}
+                    selectedRange={selectedRange}
+                    setSelectedRange={onSelectedRangeChange}
+                    key={day.filterText}
+                  />
+                ))}
               </View>
               {coinCandleChartData && (
                 <GestureHandlerRootView>
@@ -212,6 +237,14 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
                 </View>
               )}
             </ScrollView>
+            {errFetch && (
+              <View style={{ marginBottom: 350 }}>
+                <Text style={styles.errorText}>
+                  There seems to be no chart data available for this coin or
+                  option.
+                </Text>
+              </View>
+            )}
           </View>
         </View>
         {/* render snackbar if coin is added or removed from watchlist */}
@@ -235,7 +268,7 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'rgb(24, 0, 26)',
-    height: '88%',
+    height: '95%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderTopWidth: 1,
@@ -314,6 +347,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginTop: 50,
+  },
+  filtersContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#3e334b',
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginVertical: 10,
+    marginBottom: 5,
   },
 })
 
