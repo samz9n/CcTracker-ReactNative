@@ -32,6 +32,8 @@ export default function WatchlistContextProvider({
         const watchlistJSON = await AsyncStorage.getItem('@watchlist')
         if (watchlistJSON !== null) {
           setWatchlist(JSON.parse(watchlistJSON))
+        } else {
+          setWatchlist([] as Coin[])
         }
       } catch (error) {
         console.log(error)
