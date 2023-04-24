@@ -6,3 +6,10 @@ export interface Coin {
   price: number
   priceChange: number
 }
+
+export interface News {
+  title: string
+  description: string
+  url: string
+  date: string
+}

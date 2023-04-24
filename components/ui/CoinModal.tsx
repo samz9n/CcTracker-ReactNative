@@ -185,7 +185,10 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
                       })
                     )}
                   >
-                    <CandlestickChart height={screenWidth} width={screenWidth}>
+                    <CandlestickChart
+                      height={screenWidth - 20}
+                      width={screenWidth}
+                    >
                       <CandlestickChart.Candles />
                       <CandlestickChart.Crosshair>
                         <CandlestickChart.Tooltip
@@ -268,7 +271,7 @@ function CoinModal({ isVisible, closeModal, coin }: ModalProps) {
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'rgb(24, 0, 26)',
-    height: '95%',
+    height: '93%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderTopWidth: 1,

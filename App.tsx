@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import News from './screens/News'
+import NewsList from './screens/NewsList'
 import Watchlist from './screens/Watchlist'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Login from './screens/Login'
@@ -73,7 +73,7 @@ function LoggedInTabs() {
       >
         <Tab.Screen name='Watchlist' component={Watchlist} />
         <Tab.Screen name='Search' component={Search} />
-        <Tab.Screen name='News' component={News} />
+        <Tab.Screen name='News' component={NewsList} />
       </Tab.Navigator>
     </WatchlistContextProvider>
   )
