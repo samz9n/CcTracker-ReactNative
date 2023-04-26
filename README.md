@@ -2,7 +2,7 @@
 
 This mobile application is a cryptocurrency tracker, where you can select favorites from a wide range of cryptocurrencies, and check their market information. You can also see the latest crypto-related news.
 
-Built with React Native, using Firebase for authentication and AsyncStorage for saving your favorite cryptocurrencies. 
+Built with React Native (typeScript), using Firebase for authentication and AsyncStorage for saving your favorite cryptocurrencies. 
 
 Authentication and watchlist states are managed with React Context meanwhile simple parent to child states are managed with traditional useState.
 
