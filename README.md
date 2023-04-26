@@ -2,7 +2,7 @@
 
 This mobile application is a cryptocurrency tracker, where you can select favorites from a wide range of cryptocurrencies, and check their market information. You can also see the latest crypto-related news.
 
-Built with React Native, with Firebase as a backend. Firebase also takes care of the authentication. 
+Built with React Native (typeScript), using Firebase for authentication and AsyncStorage for saving your favorite cryptocurrencies. 
 
 Authentication and watchlist states are managed with React Context meanwhile simple parent to child states are managed with traditional useState.
 
@@ -19,3 +19,6 @@ Example query for top 100 coins: https://api.coingecko.com/api/v3/coins/markets?
 Charts are built with react-native-wagmi-charts (https://github.com/coinjar/react-native-wagmi-charts)
 ![image](https://user-images.githubusercontent.com/64839531/232705917-8eafa776-d438-4932-bfb8-de12ecc0f36b.png)
 
+
+Cloning the project:
+Create your own firebase project and add authentication to it. The api key is needed, and for that you need to create a apiKey.tsx file in the "util" folder with the key name. In the file simply write: export const API_KEY = 'YOUR_KEY_HERE'.
