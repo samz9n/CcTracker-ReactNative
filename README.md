@@ -6,6 +6,10 @@ Built with React Native, with Firebase as a backend. Firebase also takes care of
 
 Authentication and watchlist states are managed with React Context meanwhile simple parent to child states are managed with traditional useState
 
+The cryptocurrency news are fetched from crypto-news API (rapidAPI), and we use CoinTelegraph and Coindesk as news sources.
+![image](https://user-images.githubusercontent.com/64839531/234488045-25b2095f-1fbd-4807-a928-46f1ef1b3d63.png)
+
+
 For fetching the top 100 cryptocurrencies, the app uses Goingeckos free API (https://www.coingecko.com/en/api/documentation)
 
 Example query for bitcoins chartData for one day: https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=1
