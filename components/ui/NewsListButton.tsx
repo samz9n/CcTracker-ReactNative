@@ -8,7 +8,7 @@ interface NewsListButtonProps {
   url: string
   date: string
 }
-
+//Button for the news list, when pressed it will take you to the news article
 function NewsListButton({
   onPress,
   title,
