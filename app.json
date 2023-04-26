@@ -2,6 +2,8 @@
   "expo": {
     "name": "ccTracker",
     "slug": "ccTracker",
+    "privacy": "public",
+    "description": "An application to keep track of your favorite crypto currencies and find recent cryptocurrency news.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
