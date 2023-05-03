@@ -9,6 +9,7 @@ Built with React Native (typeScript), using Firebase for authentication and Asyn
 Authentication and watchlist states are managed with React Context meanwhile simple parent to child states are managed with traditional useState.
 
 The cryptocurrency news are fetched from crypto-news API (rapidAPI), and we use CoinTelegraph and Coindesk as news sources.
+
 ![image](https://user-images.githubusercontent.com/64839531/234488334-b85dbd05-7ab2-47e9-88bb-266883f0571c.png)
 
 
