@@ -13,10 +13,13 @@ Published on expo.io: https://expo.dev/@samz9n/ccTracker?serviceType=classic&dis
 Authentication and watchlist states are managed with React Context, meanwhile simple parent to child states are managed with traditional useState.
 
 ## API usage
+
+### News
 The cryptocurrency news are fetched from crypto-news API (rapidAPI), and we use CoinTelegraph and Coindesk as news sources.
 
 ![image](https://user-images.githubusercontent.com/64839531/234488334-b85dbd05-7ab2-47e9-88bb-266883f0571c.png)
 
+### Coin- and chart data
 For fetching the top 100 cryptocurrencies, the app uses Goingeckos free API (https://www.coingecko.com/en/api/documentation)
 
 Example query for bitcoins chartData for one day: https://api.coingecko.com/api/v3/coins/bitcoin/ohlc?vs_currency=usd&days=1
