@@ -2,7 +2,7 @@
 
 This mobile application is a cryptocurrency tracker, where you can select favorites from a wide range of cryptocurrencies, and check their market information. You can also see the latest crypto-related news.
 
-Published on expo.io: https://expo.dev/@samz9n/ccTracker?serviceType=classic&distribution=expo-go
+Published on expo.io: https://expo.dev/@samz9n/ccTracker?serviceType=classic&distribution=expo-go (<b>only works on Android device with Expo Go app installed!<b>)
 
 ## Technologies
 - Built with React Native (using TypeScript) 
