@@ -31,5 +31,5 @@ Charts are built with react-native-wagmi-charts (https://github.com/coinjar/reac
 ![image](https://user-images.githubusercontent.com/64839531/232705917-8eafa776-d438-4932-bfb8-de12ecc0f36b.png)
 
 
-## Closning the project
+## Cloning the project
 Create your own firebase project and add authentication to it. The api key is needed, and for that you need to create a apiKey.tsx file in the "util" folder with the key name. In the file simply write: export const API_KEY = 'YOUR_KEY_HERE'.
