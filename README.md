@@ -9,7 +9,7 @@ Published on expo.io: https://expo.dev/@samz9n/ccTracker?serviceType=classic&dis
 - Firebase for authentication
 - AsyncStorage for saving your favorite cryptocurrencies
 
-## Statemanagement
+## State management
 Authentication and watchlist states are managed with React Context, meanwhile simple parent to child states are managed with traditional useState.
 
 ## API usage
